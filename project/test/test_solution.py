@@ -1,5 +1,6 @@
 import unittest
-from .solution import Solution
+from src.solution import Solution
+from src.parameters import Parameters
 
 
 class MyTestCase(unittest.TestCase):
@@ -11,7 +12,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(solution1.f_target(rating1, skill1), 13)
         emp_time = [1.5, 2, 1]
         comp_time = [1, 1, 0.5, 0.5]
+        parameters = Parameters(rating1, skill1, emp_time, comp_time)
         self.assertEqual(solution1.f_penalty(emp_time, comp_time), 4)
+        self.assertEqual(solution1.adaptation(parameters), 9)
 
 
 if __name__ == '__main__':
