@@ -2,10 +2,11 @@ from random import randint
 from typing import List
 from src.parameters import Parameters
 
+
 class Solution:
     """Klasa bedąca osobnikiem tj. rozwiązaniem zadania"""
 
-    def __init__(self, employee_number: int, company_number: int = 0, premade_list: List[int] = None):
+    def __init__(self, employee_number: int, company_number: int, premade_list: List[int] = None):
         # Solution posiada pola: lista(indeksy listy = firmy) indeksów(osób), max indeks pracowników
         if premade_list:  # przypadek testowy
             self.company_employee_list = premade_list
@@ -42,6 +43,7 @@ class Solution:
         return result
 
     def adaptation(self, parameters: Parameters) -> float:
-        """Funkcja przystosowania, do operacji na populacji po wartości tej funkcji dla danego osobnika"""
+        """Funkcja przystosowania"""
+        # Do operacji na populacji po wartości tej funkcji dla danego osobnika
         return self.f_target(parameters.rating, parameters.skills_matrix) - self.f_penalty(
             parameters.employee_time, parameters.company_time, parameters.alpha)
