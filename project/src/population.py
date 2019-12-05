@@ -41,5 +41,32 @@ class Population:
                     temp_list.append(self.main_list[k])
                     break
         self.main_list = temp_list
+        
+    def crossover(self):
+        pair_list = [(self.main_list[2*i], self.main_list[2*i + 1])
+                     for i in range(len(self.main_list)//2)] # otrzymamy listę par rozwiązań
+        self.temporary_list = []
+        for i in range(len(pair_list)):
+            crossing_point = randint(1, len(self.main_list[0])-1) #wylosowanie punktu krzyżowania
+            offspring_1 = pair_list[i][0][:crossing_point] + pair_list[i][1][crossing_point:]  # stworzenie pierwszego potomka
+            offspring_2 = pair_list[i][1][:crossing_point] + pair_list[i][0][crossing_point:]
+            self.temporary_list.append(offspring_1)
+            self.temporary_list.append(offspring_2)
+
+    def mutation(self, parameters: Parameters, mut_prob: float = 0.01):
+        for i in range(len(self.temporary_list)):
+            for j in range(len(self.temporary_list[i])):
+                temp_gene = self.temporary_list[i][j]
+                prob = random()
+                if prob <= mut_prob:        #dla każdego genu losujemy liczbę z przedziału (0,1) i sprawdzamy, czy jest mniejsza od prawd. mutacji
+                     while temp_gene == self.temporary_list[i][j]:
+                        temp_gene = randint(0, len(parameters.skills_matrix) - 1)
+                self.temporary_list[i][j] = temp_gene
+
+    def merging(self):
+        merged_list = self.main_list + self.temporary_list      #złączenie list rodziców i potomków
+        merged_list.sort(key=lambda obj: obj.adaptation(self.parameters), reverse=True)     #posortowanie wszystkich osobników od najlepszego do najgorszego
+        merged_list = merged_list[:len(self.main_list)]
+        self.main_list = merged_list        #powstaje lista nowych rodziców 
     # TODO: dodać operatory krzyżowania/mutacji/złączenia list, zrobić testy, zwłaszcza dla dotychczas napisanych
     #  funkcjonalości Population, ew. pododawać błędy i ich obsługi
