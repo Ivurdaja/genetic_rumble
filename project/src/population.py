@@ -2,6 +2,7 @@ from src.solution import Solution
 from src.parameters import Parameters
 from typing import List
 from random import random
+from random import randint
 
 
 class MeasuresError(Exception):

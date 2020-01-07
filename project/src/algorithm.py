@@ -1,21 +1,29 @@
-from src.solution import Solution
-from src.parameters import Parameters   
+
 from src.population import Population
-import subalgorithm
+from src.loading_txt import load_parametry,load_populacja
+from src.subalgorithm import stop,offspring
+from src.get_data import get_data
 
-def algorithm(parameters: Parameters, parent: Population = None, stop: float = 0.00001):
+
+def algorithm(parent_population: Population = None, difference: float = 0.2):
+    parameters = load_parametry()
+    population = load_populacja(parameters)
     counter = 0         #licznik iteracji
-    for i in range(5):
-        result = 1
-        while result > stop:
-            if parent == None:
-                parent = Population(parameters)
+    result = 1
+    while result > difference:
+        if counter >3000:
+            break
+        else:
+            if parent_population == None:
+                parent_population = Population(parameters)
             else:
-                parent = offspring
-            offspring = Population(parameters, subalgorithm.offspring(parent))
-            result = subalgorithm.stop(parent, offspring, parameters)   #wynik warunku stopu
+                parent_population = population
+            offspring_population = Population(parameters, offspring(parent_population))
+            result = stop(parent_population, offspring_population, parameters)   #wynik warunku stopu
             counter += 1
+            get_data(counter, offspring_population)
 
-    offspring.main_list.sort(key=lambda obj: obj.adaptation(offspring.parameters), reverse=True)
     print(counter)
-    return offspring.main_list[0]
+
+
+algorithm()
