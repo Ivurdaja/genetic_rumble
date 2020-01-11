@@ -11,7 +11,7 @@ def get_data(iterate_num: int, population: Population):
     # podawac iteracje od 0 (czyli wprost zmienną iteracyjną), +1 odbywa się w pliku
     best_solution = max(population.main_list, key=lambda q: q.adaptation(population.parameters))
     target_value = best_solution.f_target(population.parameters.rating, population.parameters.skills_matrix)
-    penalty_value = best_solution.f_penalty(population.parameters.employee_time, population.parameters.company_time,
+    penalty_value = best_solution.f_penalty(population.parameters.employee_time, population.parameters.company_time, population.parameters.skills_matrix,
                                             population.parameters.alpha)
     best_solution_string = string_mod(str(best_solution.company_employee_list))
 
