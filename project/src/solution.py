@@ -33,14 +33,14 @@ class Solution:
         return round(result,2)
 
     def f_penalty(self, employee_time: List[float], company_time: List[float], skills_matrix: List[List[float]],
-                  alpha: int = 4, overtime_allowance: float = 1.5) -> float:
+                  alpha: int = 4, overtime_allowance: float = 10) -> float:
         """Funkcja kary"""
         "Alpha stanowi tutaj hour rate, czyli podstawe do wyliczenia stawki godzinowej dla " \
         "kazdego pracownika na postawie skills_matrix"
         result = 0
         company_time_sum = [0 for i in range(self.number_of_employees)]
         employee_salary = [0 for i in range(self.number_of_employees)]
-        hourly_rate = [(sum(skills_matrix[n]) * alpha)/len(self.company_employee_list)
+        hourly_rate = [(sum(skills_matrix[n]) * alpha*50)/len(self.company_employee_list)
                        for n in range(self.number_of_employees)]
         for n in range(self.number_of_employees):
             for m in range(len(self.company_employee_list)):

@@ -44,11 +44,17 @@ class Population:
         self.main_list = temp_list
         
     def crossover(self):
-        pair_list = [(self.main_list[2*i], self.main_list[2*i + 1])
+
+        pair_list = [[self.main_list[2*i], self.main_list[2*i + 1]]
                      for i in range(len(self.main_list)//2)] # otrzymamy listę par rozwiązań
+        print("pair_list")
+        #for i in range(len(pair_list)):
+         #   for j in range(2):
+          #      pair_list[i][j].print()
+           # print("kolejna")
         self.temporary_list = []
         for i in range(len(pair_list)):
-            crossing_point = randint(1, len(self.parameters.skills_matrix[0])-1) #wylosowanie punktu krzyżowania
+            crossing_point = randint(1, len(self.parameters.skills_matrix[0])-2) #wylosowanie punktu krzyżowania
             offspring_1 = pair_list[i][0].company_employee_list[:crossing_point] + pair_list[i][1].company_employee_list[crossing_point:]  # stworzenie pierwszego potomka
             offspring_2 = pair_list[i][1].company_employee_list[:crossing_point] + pair_list[i][0].company_employee_list[crossing_point:]
             self.temporary_list.append(offspring_1)
@@ -65,10 +71,14 @@ class Population:
                         temp_gene = randint(0, len(self.parameters.skills_matrix) - 1)
                 self.temporary_list[i][j] = temp_gene
 
+
     def merging(self) -> List:
+        #for i in range(10):
+         #   self.main_list[i].print()
         "Laczenie populacji rodzicielskiej z potomkami, sortowanie wg f.adaptacji oraz wyznaczenie nowej populacji z najlepszych osobnikow"
         self.temporary_list = [Solution(len(self.parameters.skills_matrix), len(self.parameters.skills_matrix[0]), self.temporary_list[i]) for i in range(len(self.temporary_list))]
-        merged_list = self.main_list + self.temporary_list      #złączenie list rodziców i potomków
+        print("Pierwsze potomki")
+        merged_list = self.temporary_list + self.main_list    #złączenie list rodziców i potomków
         merged_list.sort(key=lambda obj: obj.adaptation(self.parameters), reverse=True)     #posortowanie wszystkich osobników od najlepszego do najgorszego
         merged_list = merged_list[:len(self.main_list)]
         self.main_list = merged_list        #powstaje lista nowych rodziców 

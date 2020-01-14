@@ -9,15 +9,18 @@ def stop(parent: Population, offspring: Population, parametres: Parameters) -> i
     #sum_offspring = sum(offspring.main_list[i].adaptation(parametres) for i in range(len(parametres.skills_matrix[0])))
     max_parent = max(parent.main_list, key=lambda q: q.adaptation(parent.parameters)).adaptation(parametres)
     max_offspring = max(offspring.main_list, key=lambda q: q.adaptation(offspring.parameters)).adaptation(parametres)
-    return abs((max_parent-max_offspring)/max_parent)
+    print(max_parent)
+    print(max_offspring)
+    return (max_offspring-max_parent)/max_parent
 
-def offspring(main_list: Population, mut_prob):
+def offspring(parent: Population, mut_prob):
     "Funkcja generująca nowa populacje"
-    main_list.selection()
-    main_list.crossover()
-    main_list.mutation(mut_prob)
-    return main_list.merging()
-
+    temporary_parent = Population(parent.parameters, parent.main_list)
+    temporary_parent.selection()
+    temporary_parent.crossover()
+    temporary_parent.mutation(mut_prob)
+    temporary_parent.merging()
+    return temporary_parent
 
 
 
